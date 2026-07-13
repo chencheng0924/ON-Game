@@ -1,0 +1,16 @@
+{
+  "test": {
+    "home": "Home",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "langZh": "繁體中文",
+    "langEn": "English",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System Default"
+  }
+}

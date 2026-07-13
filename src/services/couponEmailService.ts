@@ -1,0 +1,29 @@
+import emailjs from '@emailjs/browser'
+
+/** EmailJS 與優惠券圖片設定（寫死，無需 .env） */
+const EMAILJS_SERVICE_ID = 'service_wc6rtfg'
+const EMAILJS_TEMPLATE_ID = 'template_qq7qdys'
+const EMAILJS_PUBLIC_KEY = 'xN8DZaI-Qs-hH1yg8'
+const COUPON_IMAGE_URL =
+  'https://master.d3akv27kk2324e.amplifyapp.com/coupon.png'
+
+export interface CouponEmailPayload {
+  toEmail: string
+  couponTitle: string
+  couponSubtitle?: string
+}
+
+export async function sendCouponEmail(payload: CouponEmailPayload): Promise<void> {
+  await emailjs.send(
+    EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID,
+    {
+      to_email: payload.toEmail,
+      user_email: payload.toEmail,
+      coupon_title: payload.couponTitle,
+      coupon_subtitle: payload.couponSubtitle ?? '',
+      coupon_image_url: COUPON_IMAGE_URL,
+    },
+    { publicKey: EMAILJS_PUBLIC_KEY },
+  )
+}

@@ -1,0 +1,48 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "types": [
+      "vite/client"
+    ],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler", //node
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    /* Linting */
+    "strict": true, // 啟用所有嚴格類型檢查選項 
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": false, // 有未使用的變數時，拋出錯誤
+    "noUnusedParameters": false, // 有未使用的參數時，拋出錯誤
+    "strictNullChecks": false, // 啟用嚴格的 null 檢查    
+    "noImplicitThis": false, //當 this 表達式值為 any 類型的時候，生成一個錯誤   
+    "noImplicitAny": false, // 在表達式和聲明上有隱含的 any類型時報錯   
+    "noEmitOnError": true,
+    "removeComments": false,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "_source"
+  ]
+}
