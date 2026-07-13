@@ -1,18 +1,22 @@
 <template>
-  <main class="game-hub relative h-full max-h-full">
+  <main class="game-hub relative h-full max-h-full overflow-hidden">
     <GameStoreBackground
-      :src="PAGE_BG.hub"
-      object-position="center 55%"
+      :src="hubBg"
+      :object-position="isMobile ? 'center center' : 'center 45%'"
+      object-fit="cover"
       intensity="light"
     />
+    <div class="game-hub__atmosphere" aria-hidden="true" />
+
     <div class="game-hub__inner relative z-10">
-      <header class="game-hub__header flex flex-col items-center justify-center">
-        <img src="@/assets/logo.png" alt="TTAN GAME" class=" h-[100px] object-cover"></img>
-        <h1 class="game-hub__title">
-          TTAN GAME
+      <header class="game-hub__hero">
+        <p class="game-hub__brand">ON</p>
+        <p class="game-hub__brand-sub">溫 · 온 · GAME</p>
+        <h1 class="game-hub__headline">
+          一碗熱湯，重新開啟你的夜晚
         </h1>
         <p class="game-hub__subtitle">
-          選擇一個遊戲開始遊玩
+          選擇一款遊戲，熬出屬於你的 ON 時刻
         </p>
       </header>
 
@@ -25,17 +29,10 @@
           :key="item.path"
           :to="item.path"
           class="game-menu-card"
-          :class="{ 'game-menu-card--soon': item.comingSoon }"
         >
           <span class="game-menu-card__icon" aria-hidden="true">{{ item.icon }}</span>
           <span class="game-menu-card__title">{{ item.title }}</span>
           <span class="game-menu-card__desc">{{ item.description }}</span>
-          <span
-            v-if="item.comingSoon"
-            class="game-menu-card__badge"
-          >
-            即將推出
-          </span>
         </RouterLink>
       </nav>
     </div>
@@ -43,37 +40,26 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useMediaQuery } from '@vueuse/core'
 import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackground.vue'
 import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
 
+const isMobile = useMediaQuery('(max-width: 767px)')
+const hubBg = computed(() => (isMobile.value ? PAGE_BG.hubMobile : PAGE_BG.hub))
+
 const menuItems = [
   {
-    path: '/wineGlass',
-    title: '酒杯遊戲',
-    description: '5 秒交換後猜硬幣在哪個酒杯',
-    icon: '🍶',
-    comingSoon: false,
+    path: '/boilCatch',
+    title: '熬煮時間與食材',
+    description: '左右滑動鐵鍋，接住新鮮食材、閃避劣質調味粉',
+    icon: '🍲',
   },
   {
-    path: '/coinCatch',
-    title: '接菜品',
-    description: '接住 TTAN 料理、避開非 TTAN 料理',
-    icon: '🍱',
-    comingSoon: false,
-  },
-  {
-    path: '/pinball',
-    title: '彈珠台',
-    description: '打彈珠，獲得折價券',
-    icon: '🎱',
-    comingSoon: false,
-  },
-  {
-    path: '/cardGuess',
-    title: '猜菜品',
-    description: '配對全部料理牌',
-    icon: '🃏',
-    comingSoon: false,
+    path: '/mbtiQuiz',
+    title: 'MBTI 韓式吃貨人格',
+    description: '八題測驗，找出你的湯飯靈魂型別',
+    icon: '🌶️',
   },
 ] as const
 </script>
@@ -85,11 +71,11 @@ const menuItems = [
   height: 100%;
   width: 100%;
   max-width: 100vw;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   overflow-x: hidden;
   overflow-y: auto;
-  color: white;
+  color: var(--on-cream);
   padding:
     max(1rem, env(safe-area-inset-top))
     max(1rem, env(safe-area-inset-right))
@@ -97,37 +83,74 @@ const menuItems = [
     max(1rem, env(safe-area-inset-left));
 }
 
+.game-hub__atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 8%, rgb(240 232 226 / 0.28), transparent 55%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.32) 0%, rgb(0 0 0 / 0.12) 42%, rgb(0 0 0 / 0.4) 100%);
+  animation: atmosphere-pulse 8s ease-in-out infinite;
+}
+
 .game-hub__inner {
   box-sizing: border-box;
+  position: relative;
+  z-index: 10;
   display: flex;
   width: min(100%, 40rem);
+  min-height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.5rem, 4vh, 2.5rem);
+  gap: clamp(1.75rem, 5vh, 3rem);
   margin: auto;
-  padding: clamp(0.5rem, 2vh, 1.5rem) 0;
+  padding: clamp(0.75rem, 3vh, 2rem) 0;
 }
 
-.game-hub__header {
+.game-hub__hero {
   width: 100%;
   max-width: 28rem;
   text-align: center;
 }
 
-.game-hub__title {
-  font-size: clamp(1.5rem, 5vw, 2.25rem);
+.game-hub__brand {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 16vw, 5.5rem);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  text-shadow: 0 2px 12px rgb(0 0 0 / 0.5);
+  letter-spacing: 0.12em;
+  line-height: 0.95;
+  color: var(--on-white);
+  text-shadow: 0 4px 28px rgb(0 0 0 / 0.55);
+  animation: brand-breathe 4.5s ease-in-out infinite;
+}
+
+.game-hub__brand-sub {
+  margin-top: 0.35rem;
+  font-size: clamp(0.75rem, 2.8vw, 0.9rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--on-cream);
+  font-weight: 600;
+}
+
+.game-hub__headline {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 3.8vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: var(--on-cream);
+  text-shadow: 0 2px 16px rgb(0 0 0 / 0.55);
 }
 
 .game-hub__subtitle {
   margin-top: 0.5rem;
-  font-size: clamp(0.875rem, 2.8vw, 1.0625rem);
-  line-height: 1.5;
-  color: rgb(203 213 225);
+  font-size: clamp(0.85rem, 2.8vw, 1rem);
+  line-height: 1.55;
+  color: rgb(240 232 226 / 0.82);
 }
 
 .game-hub__menu {
@@ -136,26 +159,14 @@ const menuItems = [
   width: 100%;
   min-width: 0;
   grid-template-columns: 1fr;
-  gap: clamp(0.75rem, 2.5vw, 1.25rem);
+  gap: clamp(0.85rem, 2.5vw, 1.25rem);
   justify-items: center;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 520px) {
   .game-hub__menu {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: 36rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .game-hub__inner {
-    width: min(100%, 44rem);
-    gap: clamp(2rem, 5vh, 3rem);
-  }
-
-  .game-hub__menu {
-    max-width: 40rem;
-    gap: 1.25rem;
   }
 }
 
@@ -166,89 +177,102 @@ const menuItems = [
   width: 100%;
   max-width: 18rem;
   min-width: 0;
-  min-height: clamp(6.75rem, 20vh, 8.5rem);
+  min-height: clamp(7.5rem, 22vh, 9.5rem);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  border-radius: 1rem;
-  border: 1px solid rgb(180 83 9 / 0.35);
-  background: rgb(30 41 59 / 0.72);
-  backdrop-filter: blur(8px);
+  gap: 0.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  background: rgb(240 232 226 / 0.94);
+  backdrop-filter: blur(10px);
   padding: clamp(1rem, 3vw, 1.5rem) clamp(0.875rem, 2.5vw, 1.25rem);
   text-align: center;
   text-decoration: none;
-  color: inherit;
+  color: var(--on-black);
   transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  animation: card-rise 0.7s ease both;
 }
 
-@media (min-width: 480px) {
+.game-menu-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+@media (min-width: 520px) {
   .game-menu-card {
     max-width: none;
   }
 }
 
 .game-menu-card:hover {
-  transform: translateY(-2px);
-  border-color: rgb(251 191 36 / 0.55);
-  background: rgb(51 65 85 / 0.85);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  transform: translateY(-4px);
+  background: var(--on-white);
+  border-color: var(--on-black);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
 }
 
 .game-menu-card:active {
-  transform: translateY(0);
-}
-
-.game-menu-card--soon {
-  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
 .game-menu-card__icon {
-  font-size: clamp(1.75rem, 7vw, 2.75rem);
+  font-size: clamp(1.85rem, 7vw, 2.75rem);
   line-height: 1;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.12));
 }
 
 .game-menu-card__title {
-  font-size: clamp(1rem, 3.5vw, 1.125rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 3.5vw, 1.15rem);
   font-weight: 700;
   line-height: 1.3;
+  color: var(--on-black);
 }
 
 .game-menu-card__desc {
   max-width: 100%;
   padding: 0 0.25rem;
   font-size: clamp(0.75rem, 2.5vw, 0.8125rem);
-  line-height: 1.4;
-  color: rgb(203 213 225);
+  line-height: 1.45;
+  color: rgb(0 0 0 / 0.62);
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
 
-.game-menu-card__badge {
-  position: absolute;
-  top: clamp(0.5rem, 2vw, 0.75rem);
-  right: clamp(0.5rem, 2vw, 0.75rem);
-  max-width: calc(100% - 1rem);
-  border-radius: 9999px;
-  background: rgb(71 85 105 / 0.9);
-  padding: 0.2rem 0.5rem;
-  font-size: clamp(0.625rem, 2vw, 0.6875rem);
-  line-height: 1.2;
-  color: rgb(226 232 240);
-  white-space: nowrap;
+@keyframes brand-breathe {
+  0%,
+  100% {
+    text-shadow: 0 4px 24px rgb(0 0 0 / 0.4);
+  }
+  50% {
+    text-shadow: 0 6px 36px rgb(0 0 0 / 0.65), 0 0 40px rgb(240 232 226 / 0.2);
+  }
 }
 
-@media (max-width: 359px) {
-  .game-menu-card__badge {
-    position: static;
-    margin-top: 0.25rem;
-    white-space: normal;
+@keyframes atmosphere-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

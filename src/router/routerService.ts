@@ -3,7 +3,6 @@ import GameLayout from "@/views/layout/game/GameLayout.vue"
 class RouterService {
     constructor() { }
     private _ignoreFile: string[] = [
-        // '/src/views/pages/AIPlatform/AIProject.vue',
         '/src/views/pages/AIPlatform/AIAgentEdit.vue',
         '/src/views/pages/F1Chat/F1Chat.vue',
         '/src/views/pages/Games/CardGuess.vue',
@@ -11,6 +10,8 @@ class RouterService {
         '/src/views/pages/Games/GameHub.vue',
         '/src/views/pages/Games/WineGlass.vue',
         '/src/views/pages/Games/Pinball.vue',
+        '/src/views/pages/Games/BoilCatch.vue',
+        '/src/views/pages/Games/MbtiQuiz.vue',
     ];
 
 
@@ -27,7 +28,6 @@ class RouterService {
         if (names.length < 2)
             return "";
         let fileName = names[1];
-        //console.log(`path fileName: ${fileName}`);
         return fileName;
     }
     private getPathRoutes() {
@@ -42,9 +42,7 @@ class RouterService {
                 return {
                     path: `/${name}/:data(.*)*`,
                     name: name,
-                    // meta: { layout: STLayout },
                     meta: { layout: GameLayout },
-                    //meta: { layout: STLayoutOld },
                     component: routeModules[pathTemp],
 
                 }
@@ -61,6 +59,19 @@ class RouterService {
                 meta: { layout: GameLayout },
                 component: () => import('@/views/pages/Games/GameHub.vue'),
             },
+            {
+                path: '/boilCatch',
+                name: 'BoilCatch',
+                meta: { layout: GameLayout },
+                component: () => import('@/views/pages/Games/BoilCatch.vue'),
+            },
+            {
+                path: '/mbtiQuiz',
+                name: 'MbtiQuiz',
+                meta: { layout: GameLayout },
+                component: () => import('@/views/pages/Games/MbtiQuiz.vue'),
+            },
+            // 舊遊戲保留路由但不在選單顯示，方便之後恢復
             {
                 path: '/wineGlass',
                 name: 'WineGlass',
@@ -85,13 +96,6 @@ class RouterService {
                 meta: { layout: GameLayout },
                 component: () => import('@/views/pages/Games/CardGuess.vue'),
             },
-            // {
-            //     path: '/AIProject',
-            //     name: 'AIProject',
-            //     meta: { layout: AIProjectLayout },
-            //     component: () => import('@/views/pages/AIPlatform/AIProject.vue'),
-
-            // },
             ...otherPaths,
 
         ];

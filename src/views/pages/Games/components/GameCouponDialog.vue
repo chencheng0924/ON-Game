@@ -16,7 +16,7 @@
         :aria-labelledby="titleId"
       >
         <div
-          class="win-dialog-panel mx-auto box-border w-[min(100%,20rem)] shrink-0 rounded-xl border bg-background p-5 text-foreground shadow-xl sm:w-[min(100%,22rem)] sm:p-6 md:w-[min(100%,24rem)] md:p-8"
+          class="win-dialog-panel mx-auto box-border w-[min(100%,20rem)] shrink-0 rounded-xl border border-black/10 bg-[var(--on-cream)] p-5 text-[var(--on-black)] shadow-xl sm:w-[min(100%,22rem)] sm:p-6 md:w-[min(100%,24rem)] md:p-8"
         >
           <h2
             :id="titleId"
@@ -24,20 +24,20 @@
           >
             {{ title }}
           </h2>
-          <p class="mt-2 text-center text-sm text-muted-foreground sm:mt-3 sm:text-base">
+          <p class="mt-2 whitespace-pre-line text-center text-sm text-black/65 sm:mt-3 sm:text-base">
             {{ message }}
           </p>
           <div class="win-dialog-actions mt-5 grid w-full gap-2 sm:mt-6 sm:gap-3">
             <button
               type="button"
-              class="win-dialog-btn win-dialog-btn--primary inline-flex h-8 w-full items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              class="win-dialog-btn win-dialog-btn--primary inline-flex min-h-8 w-full items-center justify-center rounded-md bg-[var(--on-black)] px-3 py-2 text-sm font-medium text-[var(--on-cream)] transition-colors hover:bg-black/85"
               @click="emit('playAgain')"
             >
-              再玩一次
+              {{ playAgainLabel }}
             </button>
             <button
               type="button"
-              class="win-dialog-btn inline-flex h-8 w-full items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+              class="win-dialog-btn inline-flex h-8 w-full items-center justify-center rounded-md border border-black/20 bg-[var(--on-white)] px-3 text-sm font-medium text-[var(--on-black)] transition-colors hover:bg-black hover:text-[var(--on-cream)]"
               @click="emit('goHub')"
             >
               返回遊戲中心
@@ -56,8 +56,12 @@ withDefaults(
     title: string
     message: string
     titleId?: string
+    playAgainLabel?: string
   }>(),
-  { titleId: 'game-coupon-dialog-title' },
+  {
+    titleId: 'game-coupon-dialog-title',
+    playAgainLabel: '再玩一次',
+  },
 )
 
 const emit = defineEmits<{

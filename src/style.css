@@ -50,24 +50,24 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #f0e8e2;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f0e8e2;
+  --secondary-foreground: #000000;
+  --muted: #f0e8e2;
+  --muted-foreground: #000000;
+  --accent: #f0e8e2;
+  --accent-foreground: #000000;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #00000022;
+  --input: #00000022;
+  --ring: #000000;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -142,9 +142,27 @@
     @apply bg-background text-foreground;
     min-height: 100dvh;
     height: 100%;
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   }
   #app {
     min-height: 100dvh;
     height: 100%;
   }
+}
+
+/* ON GAME — 品牌主色：黑 / 白 / 米杏 */
+:root {
+  --on-black: #000000;
+  --on-white: #ffffff;
+  --on-cream: #f0e8e2;
+  /* 語意別名，方便各頁沿用 */
+  --on-charcoal: #000000;
+  --on-ember: #1a1a1a;
+  --on-chili: #000000;
+  --on-chili-deep: #000000;
+  --on-broth: #f0e8e2;
+  --on-steam: #f0e8e2;
+  --on-stone: #111111;
+  --font-display: "Noto Serif TC", "Noto Serif CJK TC", Georgia, serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
 }

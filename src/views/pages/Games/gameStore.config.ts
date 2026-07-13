@@ -1,36 +1,38 @@
-import storeExterior1 from '@/assets/store/TTAN-1.jpg'
-import storeExterior2 from '@/assets/store/TTAN-2.jpg'
-import storeExterior3 from '@/assets/store/TTAN-3.jpg'
-import storeExterior from '@/assets/store/TTAN.jpg'
-import storeHall from '@/assets/store/TTAN9.jpg'
-import storeWelcome from '@/assets/store/TTAN10.jpg'
-import storeCounter from '@/assets/store/TTAN11.jpg'
-import storeDining from '@/assets/store/TTAN13.jpg'
+import onWelcome from '@/assets/store/on-welcome.png'
+import onWelcomeMobile from '@/assets/store/on-welcome-mobile.png'
+import onExterior from '@/assets/store/on-exterior.png'
+import onBoilBg from '@/assets/store/on-boil-bg.png'
 
-/** 小吃店場景圖片 */
+/** ON 店面場景圖片 */
 export const STORE_IMAGES = {
-  exterior1: storeExterior1,
-  exterior2: storeExterior2,
-  exterior3: storeExterior3,
-  exterior: storeExterior,
-  /** 用餐大廳（酒桶、窗邊吧台） */
-  hall: storeHall,
-  /** 迎賓牆（おかえり） */
-  welcome: storeWelcome,
-  /** 吧台／出餐區 */
-  counter: storeCounter,
-  /** 用餐區（白磚牆、紅椅） */
-  dining: storeDining,
+  /** 歡迎牌（手繪食材） */
+  welcome: onWelcome,
+  /** 歡迎牌（手機直式裁切） */
+  welcomeMobile: onWelcomeMobile,
+  /** 店外招牌 */
+  exterior: onExterior,
+  /** 熬煮遊戲背景（店內小菜牆） */
+  boilBg: onBoilBg,
 } as const
 
-/** 各頁面背景圖配置（四個遊戲各用不同圖，不重複） */
+/** 各頁面背景圖配置 */
 export const PAGE_BG = {
-  hub: STORE_IMAGES.exterior2,
-  wineGlass: STORE_IMAGES.counter,
+  /** 遊戲中心歡迎圖 */
+  hub: STORE_IMAGES.welcome,
+  hubMobile: STORE_IMAGES.welcomeMobile,
+  /** 熬煮時間與食材 */
+  boilCatch: {
+    idle: STORE_IMAGES.boilBg,
+    playing: STORE_IMAGES.boilBg,
+  },
+  /** MBTI 韓式吃貨人格 */
+  mbtiQuiz: STORE_IMAGES.exterior,
+  // 舊遊戲路由相容（選單已隱藏）
+  wineGlass: STORE_IMAGES.boilBg,
   coinCatch: {
     idle: STORE_IMAGES.exterior,
-    playing: STORE_IMAGES.welcome,
+    playing: STORE_IMAGES.exterior,
   },
-  pinball: STORE_IMAGES.hall,
-  cardGuess: STORE_IMAGES.dining,
+  pinball: STORE_IMAGES.boilBg,
+  cardGuess: STORE_IMAGES.boilBg,
 } as const
