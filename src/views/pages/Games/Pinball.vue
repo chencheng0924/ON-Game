@@ -126,7 +126,7 @@ import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackgro
 import { useGameCouponReward } from '@/composables/useGameCouponReward'
 import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
 import { PINBALL_COUPONS } from '@/views/pages/Games/pinballCoupons.config'
-import logoImg from '@/assets/logo.png'
+import logoImg from '@/assets/store/logo.png'
 
 // ─── 食物圖片 ───────────────────────────────────────────
 import food1 from '@/assets/food/food1.png'

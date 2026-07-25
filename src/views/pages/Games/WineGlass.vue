@@ -202,7 +202,7 @@ import GameCouponDialog from '@/views/pages/Games/components/GameCouponDialog.vu
 import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackground.vue'
 import { useGameCouponReward } from '@/composables/useGameCouponReward'
 import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
-import logoImg from '@/assets/logo.png'
+import logoImg from '@/assets/store/logo.png'
 
 const CUP_IDS = [0, 1, 2] as const
 type CupId = (typeof CUP_IDS)[number]
