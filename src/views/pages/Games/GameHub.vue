@@ -1,28 +1,28 @@
 <template>
   <main class="game-hub relative h-full max-h-full overflow-hidden">
-    <GameStoreBackground
-      :src="hubBg"
-      :object-position="isMobile ? 'center center' : 'center 45%'"
-      object-fit="cover"
-      intensity="light"
+    <div
+      class="game-hub__bg"
+      :style="hubBgStyle"
+      aria-hidden="true"
     />
     <div class="game-hub__atmosphere" aria-hidden="true" />
 
     <div class="game-hub__inner relative z-10">
       <header class="game-hub__hero">
-        <p class="game-hub__brand">ON</p>
-        <p class="game-hub__brand-sub">溫 · 온 · GAME</p>
+        <img
+          class="game-hub__logo"
+          :src="onLogo"
+          alt="ON"
+        >
+        <p class="game-hub__brand-sub">{{ t('games.hub.brandSub') }}</p>
         <h1 class="game-hub__headline">
-          一碗熱湯，重新開啟你的夜晚
+          {{ t('games.hub.headline') }}
         </h1>
-        <p class="game-hub__subtitle">
-          選擇一款遊戲，熬出屬於你的 ON 時刻
-        </p>
       </header>
 
       <nav
         class="game-hub__menu"
-        aria-label="遊戲選單"
+        :aria-label="t('games.hub.menuAria')"
       >
         <RouterLink
           v-for="item in menuItems"
@@ -30,7 +30,11 @@
           :to="item.path"
           class="game-menu-card"
         >
-          <span class="game-menu-card__icon" aria-hidden="true">{{ item.icon }}</span>
+          <img
+            class="game-menu-card__image"
+            :src="item.image"
+            :alt="item.title"
+          >
           <span class="game-menu-card__title">{{ item.title }}</span>
           <span class="game-menu-card__desc">{{ item.description }}</span>
         </RouterLink>
@@ -41,27 +45,35 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useMediaQuery } from '@vueuse/core'
-import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackground.vue'
-import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
+import koreanTofuPot from '@/assets/food/korean-tofu-pot.png'
+import { PAGE_BG, STORE_IMAGES } from '@/views/pages/Games/gameStore.config'
 
+const onLogo = STORE_IMAGES.logo
+
+const { t } = useI18n()
 const isMobile = useMediaQuery('(max-width: 767px)')
 const hubBg = computed(() => (isMobile.value ? PAGE_BG.hubMobile : PAGE_BG.hub))
+const hubBgStyle = computed(() => ({
+  backgroundImage: `url(${hubBg.value})`,
+  backgroundPosition: isMobile.value ? 'center center' : 'center 45%',
+}))
 
-const menuItems = [
+const menuItems = computed(() => [
   {
     path: '/boilCatch',
-    title: '熬煮時間與食材',
-    description: '左右滑動鐵鍋，接住新鮮食材、閃避劣質調味粉',
-    icon: '🍲',
+    title: t('games.hub.boil.title'),
+    description: t('games.hub.boil.description'),
+    image: koreanTofuPot,
   },
   {
     path: '/mbtiQuiz',
-    title: 'MBTI 韓式吃貨人格',
-    description: '八題測驗，找出你的湯飯靈魂型別',
-    icon: '🌶️',
+    title: t('games.hub.mbti.title'),
+    description: t('games.hub.mbti.description'),
+    image: STORE_IMAGES.exterior,
   },
-] as const
+])
 </script>
 
 <style scoped>
@@ -81,6 +93,16 @@ const menuItems = [
     max(1rem, env(safe-area-inset-right))
     max(1rem, env(safe-area-inset-bottom))
     max(1rem, env(safe-area-inset-left));
+}
+
+.game-hub__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 55%;
 }
 
 .game-hub__atmosphere {
@@ -115,21 +137,19 @@ const menuItems = [
   text-align: center;
 }
 
-.game-hub__brand {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 16vw, 5.5rem);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 0.95;
-  color: var(--on-white);
-  text-shadow: 0 4px 28px rgb(0 0 0 / 0.55);
+.game-hub__logo {
+  display: block;
+  width: min(9.5rem, 42vw);
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 28px rgb(0 0 0 / 0.55));
   animation: brand-breathe 4.5s ease-in-out infinite;
 }
 
 .game-hub__brand-sub {
-  margin-top: 0.35rem;
+  margin-top: 0.55rem;
   font-size: clamp(0.75rem, 2.8vw, 0.9rem);
-  letter-spacing: 0.35em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--on-cream);
   font-weight: 600;
@@ -141,16 +161,9 @@ const menuItems = [
   font-size: clamp(1.05rem, 3.8vw, 1.35rem);
   font-weight: 700;
   line-height: 1.45;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: var(--on-cream);
   text-shadow: 0 2px 16px rgb(0 0 0 / 0.55);
-}
-
-.game-hub__subtitle {
-  margin-top: 0.5rem;
-  font-size: clamp(0.85rem, 2.8vw, 1rem);
-  line-height: 1.55;
-  color: rgb(240 232 226 / 0.82);
 }
 
 .game-hub__menu {
@@ -177,16 +190,16 @@ const menuItems = [
   width: 100%;
   max-width: 18rem;
   min-width: 0;
-  min-height: clamp(7.5rem, 22vh, 9.5rem);
+  min-height: clamp(10.5rem, 28vh, 12.5rem);
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
+  justify-content: flex-start;
+  gap: 0.45rem;
   border-radius: 1.1rem;
   border: 1px solid rgb(0 0 0 / 0.12);
   background: rgb(240 232 226 / 0.94);
   backdrop-filter: blur(10px);
-  padding: clamp(1rem, 3vw, 1.5rem) clamp(0.875rem, 2.5vw, 1.25rem);
+  padding: clamp(0.75rem, 2.5vw, 1rem) clamp(0.75rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
   text-align: center;
   text-decoration: none;
   color: var(--on-black);
@@ -221,15 +234,17 @@ const menuItems = [
   transform: translateY(-1px);
 }
 
-.game-menu-card__icon {
-  font-size: clamp(1.85rem, 7vw, 2.75rem);
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.12));
+.game-menu-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.65rem;
+  background: rgb(0 0 0 / 0.06);
 }
 
 .game-menu-card__title {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 3.5vw, 1.15rem);
+  font-size: clamp(0.95rem, 3.2vw, 1.1rem);
   font-weight: 700;
   line-height: 1.3;
   color: var(--on-black);
@@ -237,8 +252,8 @@ const menuItems = [
 
 .game-menu-card__desc {
   max-width: 100%;
-  padding: 0 0.25rem;
-  font-size: clamp(0.75rem, 2.5vw, 0.8125rem);
+  padding: 0 0.15rem;
+  font-size: clamp(0.72rem, 2.4vw, 0.8rem);
   line-height: 1.45;
   color: rgb(0 0 0 / 0.62);
   word-break: keep-all;
@@ -248,10 +263,10 @@ const menuItems = [
 @keyframes brand-breathe {
   0%,
   100% {
-    text-shadow: 0 4px 24px rgb(0 0 0 / 0.4);
+    filter: drop-shadow(0 4px 24px rgb(0 0 0 / 0.4));
   }
   50% {
-    text-shadow: 0 6px 36px rgb(0 0 0 / 0.65), 0 0 40px rgb(240 232 226 / 0.2);
+    filter: drop-shadow(0 6px 36px rgb(0 0 0 / 0.65));
   }
 }
 

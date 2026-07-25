@@ -12,5 +12,220 @@
     "themeLight": "Light",
     "themeDark": "Dark",
     "themeSystem": "System Default"
+  },
+  "common": {
+    "backToHub": "Back to Game Hub",
+    "playAgain": "Play again",
+    "start": "Start",
+    "seconds": "{n}s"
+  },
+  "games": {
+    "hub": {
+      "brandSub": "WARM · 온 · KOREAN",
+      "headline": "Before everything begins, we would like to converse with you through two games first.",
+      "menuAria": "Game menu",
+      "boil": {
+        "title": "Simmering Soups & Selected Ingredients",
+        "description": "Swipe left and right on the cast iron pot to experience ON's dedication—simmering rich broth made exclusively with fresh, raw ingredients."
+      },
+      "mbti": {
+        "title": "MBTI Korean Foodie Personality",
+        "description": "To discover the tastiest way for you to eat at ON!"
+      }
+    },
+    "coupon": {
+      "gotTitle": "Coupon unlocked!",
+      "sentDev": "Congrats! Your coupon has been sent.",
+      "sentInbox": "Your coupon has been sent to your inbox. Please check your email!",
+      "sentAgain": "Your coupon has been sent!",
+      "sendFailed": "Failed to send the coupon. Please try again later or contact us.",
+      "prizeLabel": "Your prize",
+      "emailTitle": "You cleared the game!",
+      "emailLead": "Enter your email and we'll send your coupon.",
+      "emailSending": "Sending coupon…",
+      "emailSubmit": "Send coupon",
+      "groupCrab": {
+        "title": "Group Discount",
+        "subtitle": "4 guests dining together get a free soy-marinated crab"
+      },
+      "takeoutDiscount": {
+        "title": "20% Off Takeout",
+        "subtitle": "20% off your entire takeout order"
+      },
+      "openingPack": {
+        "title": "Grand Opening Early Experience Pack",
+        "subtitle": "Includes opening invitation, opening-period discount, and ON merch"
+      }
+    },
+    "boil": {
+      "hudScore": "Ingredients",
+      "idleLead": "Catch fresh ingredients in 20 seconds. Dodge low-quality additives.",
+      "startGame": "Start game",
+      "startCook": "Start simmering",
+      "notNow": "Not now",
+      "potAria": "Cast iron pot — swipe left and right to catch ingredients",
+      "controlsAria": "Controls",
+      "moveLeft": "Move left",
+      "moveRight": "Move right",
+      "displayAria": "Game display",
+      "failTitle": "Broth ruined…",
+      "failMessage": "You caught a low-quality additive. Try again — stick to fresh ingredients!",
+      "scoreDetail": "Fresh ingredients score: {score}",
+      "winScore": 100,
+      "rules": {
+        "title": "How to play",
+        "body": "ON is committed to using fresh ingredients with no low-quality additives. Only through long hours of simmering can we serve bowl after bowl of delicious soup to our guests. Catch the \"fresh, natural ingredients\" within the time limit and help us serve up the food!",
+        "howTo": "Swipe the cast iron pot left and right to catch high-quality ingredients (beef bones, vegetables, scallions, salt) within 20 seconds, while dodging low-quality additives (MSG, artificial dyes, processed seasoning powders). Avoid catching any low-quality seasoning powders or score 100 points within 20 seconds to claim our grand opening coupon!"
+      },
+      "ingredients": {
+        "bone": "Beef bones",
+        "vegetables": "Vegetables",
+        "scallion": "Scallions",
+        "salt": "Salt"
+      },
+      "traps": {
+        "msg": "MSG",
+        "dye": "Artificial dyes",
+        "processed": "Processed seasoning powder",
+        "chemical": "Chemical additives"
+      }
+    },
+    "mbti": {
+      "title": "MBTI Korean Foodie Personality",
+      "lead": "You'll receive a different grand opening coupon based on your foodie personality!",
+      "start": "Start quiz",
+      "playAgain": "Retake quiz",
+      "optionsAria": "Question {n} options",
+      "resultTitle": "You are {type}",
+      "resultDetail": "Your type: {type} “{title}”\n{description}",
+      "questions": {
+        "1": {
+          "prompt": "You finally booked a table at that super popular Korean spot in LIC on a Friday night. What’s your ideal way to eat?",
+          "options": {
+            "E": "Rally a 4-person foodie squad! A big pot is the only way to add pork belly, soy-marinated crab, and pair it with Soju to get the party hyped!",
+            "I": "Find a quiet single-seater in the corner, put on headphones, and silently enjoy the therapeutic pleasure of enjoying the soup."
+          }
+        },
+        "2": {
+          "prompt": "After a long, busy day at the office, a coworker suddenly messages the group chat after work: \"It's raining tonight, anyone up for soy-marinated crab and soju?\"",
+          "options": {
+            "E": "\"+1! Rainy days are meant for this!\" Hanging out and chatting with coworkers instantly recharges your battery.",
+            "I": "Read the message silently, thinking to yourself: \"It's raining, I just want to order Uber Eats, lie down, and eat at my cozy place.\""
+          }
+        },
+        "3": {
+          "prompt": "When you find out this Korean soup specialty shop is named \"ON (온)\", what is your first thought?",
+          "options": {
+            "S": "It must focus on piping hot stone pot soups with \"perfectly controlled temperatures.\"",
+            "N": "\"ON\" stands for turned on or online—meaning a bowl of this soup reboots your positive energy for NYC life. Very hip and indie!"
+          }
+        },
+        "4": {
+          "prompt": "When choosing Korean side dishes (Banchan) at the store, how do you usually decide?",
+          "options": {
+            "S": "Based on nutrition and flavor pairing: spicy kimchi needs refreshing pickled cucumbers, plus a satisfying mashed potato side.",
+            "N": "Order a bunch of side dishes that look the prettiest, have the most harmonious presentation, or have names you've never heard before."
+          }
+        },
+        "5": {
+          "prompt": "A friend complains to you: \"My boss chewed me out today, I'm so stressed I just want to cry my eyes out...\" How do you handle this?",
+          "options": {
+            "T": "Then you need to eat Beef Soup with extra chili paste. Capsaicin stimulates endorphin secretion to physically help you relieve stress.",
+            "F": "\"Oh no, you worked so hard! Let's go eat at 'ON' tonight and let the hot soup give your hurt soul a warm hug.\""
+          }
+        },
+        "6": {
+          "prompt": "After watching a deeply moving K-drama Reply 1988, seeing the main characters gather around a steaming bowl of hot soup, what do you do?",
+          "options": {
+            "T": "Start searching online for \"where to buy the same heat-resistant ceramic Ttukbaegi in NYC\" and research its heat retention principles.",
+            "F": "Teary-eyed, you immediately call your bestie and shout: \"I miss you! Want to go eat at ON tomorrow?\""
+          }
+        },
+        "7": {
+          "prompt": "The most debated \"sacred ritual\" of Korean soup rice: When the steamed rice hits the table, what is your signature way to eat it?",
+          "options": {
+            "J": "Strictly the 【Rice and Soup Separated Team】. You have strict steps: take three sips of pure broth first, eat a few toppings, and finally dip the rice into the soup one bite at a time—never mix them up!",
+            "P": "Unquestionably the 【Dump-it-All-in Team】. Pour the entire bowl of rice directly into the stone pot, stir wildly, and take huge, casual bites—that’s the ultimate way to enjoy it!"
+          }
+        },
+        "8": {
+          "prompt": "What Korean foods are permanently stocked in your fridge?",
+          "options": {
+            "J": "Strictly categorized: fish cakes (for rice), fresh kimchi (for soup), and ON frozen soup packs lined up chronologically by expiration date.",
+            "P": "Stuffed with various pickled radish packets left over from who-knows-when delivery orders, microwave fish cakes bought at ON, and a few randomly tossed bottles of soju."
+          }
+        }
+      },
+      "profiles": {
+        "fallback": {
+          "title": "Korean Foodie Traveler",
+          "description": "You have your own soup-rice philosophy. Whatever your type, ON welcomes you for a warm bowl."
+        },
+        "ESTJ": {
+          "title": "Broth Commander",
+          "description": "You order with an SOP and eat with a rhythm. Stone-pot heat and banchan balance stay under your control. ON’s boiling broth matches your efficient soul."
+        },
+        "ESTP": {
+          "title": "Spice Adventurer",
+          "description": "You’ll add chili, refill the pot, and try the secret menu on the spot. Hot soup hits the table and NYC night energy is back on."
+        },
+        "ESFJ": {
+          "title": "Warm Soup Sharer",
+          "description": "You remember who skips cilantro and who wants extra rice. At ON with friends, you serve heat and care in the same bowl."
+        },
+        "ESFP": {
+          "title": "Party Pot Host",
+          "description": "Big pot, soju, selfies, toppings—you turn every Korean meal into a celebration. When ON’s stone pot opens, the room switches ON."
+        },
+        "ENTJ": {
+          "title": "Menu Strategist",
+          "description": "One glance at the menu and you’ve optimized the best combo. Soup, rice, banchan, soju—precise and delicious."
+        },
+        "ENTP": {
+          "title": "Bowl Debater",
+          "description": "Separate rice and soup, or dump it all in? You’ll argue until closing. Creative toppings are your entertainment at ON."
+        },
+        "ENFJ": {
+          "title": "Soul Broth Healer",
+          "description": "You believe one hot bowl can repair a day. Inviting friends to ON isn’t just dinner—it’s turning people back on with warmth."
+        },
+        "ENFP": {
+          "title": "Inspired Kimchi Wanderer",
+          "description": "You invent a whole universe from the name \"ON.\" Even banchan colors tell a story. Every sip unlocks a new chapter."
+        },
+        "ISTJ": {
+          "title": "Classic Stone-Pot Guardian",
+          "description": "You stay loyal to original flavor, ritual, and that perfectly calibrated heat. ON’s long simmer meets your quality bar."
+        },
+        "ISTP": {
+          "title": "Broth Temperature Engineer",
+          "description": "You quietly study pot insulation, broth layers, and collagen texture. Fewer words, more sips—expertise in every mouthful."
+        },
+        "ISFJ": {
+          "title": "Gentle Solo Seat",
+          "description": "Corner hon-bap, hot soup, headphones—you simmer fatigue into comfort. ON’s warmth is your charging station."
+        },
+        "ISFP": {
+          "title": "Sensory Soup Poet",
+          "description": "You taste aroma, color, and mood of the moment. ON’s steam and red broth write today’s emotional journal."
+        },
+        "INTJ": {
+          "title": "Long-Simmer Theorist",
+          "description": "You understand why broth needs hours. Fresh ingredients, time, and fire—you’ve already drafted the blueprint of delicious."
+        },
+        "INTP": {
+          "title": "Ttukbaegi Principles Geek",
+          "description": "Heat-resistant ceramic, insulation curves, capsaicin and endorphins… you research while you sip. ON is your tasty lab."
+        },
+        "INFJ": {
+          "title": "Meaning-of-Soup Believer",
+          "description": "For you, \"ON\" is more than a name—it’s a ritual to reboot life. This warm bowl carries something deeper than flavor."
+        },
+        "INFP": {
+          "title": "Hot Soup Romantic",
+          "description": "K-drama scenes and real broth aroma overlap in your heart. You get moved by friendship, feeling, and one bowl of ON."
+        }
+      }
+    }
   }
 }

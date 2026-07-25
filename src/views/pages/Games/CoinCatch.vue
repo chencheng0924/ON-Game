@@ -112,6 +112,8 @@
       :visible="showEndDialog"
       :title="dialogTitle"
       :message="dialogMessage"
+      :prize-title="dialogPrizeTitle"
+      :prize-subtitle="dialogPrizeSubtitle"
       title-id="catch-game-dialog-title"
       @play-again="onPlayAgain"
       @go-hub="goHub"
@@ -178,6 +180,8 @@ const endReason = ref<'trap' | 'timeout'>('timeout')
 const { handleGameWin } = useGameCouponReward()
 const dialogTitle = ref('時間到！')
 const dialogMessage = ref('')
+const dialogPrizeTitle = ref('')
+const dialogPrizeSubtitle = ref('')
 
 let itemIdSeq = 0
 let rafId = 0
@@ -308,9 +312,13 @@ async function showEndDialogForReason(reason: 'trap' | 'timeout') {
     })
     dialogTitle.value = content.title
     dialogMessage.value = content.message
+    dialogPrizeTitle.value = content.prizeTitle
+    dialogPrizeSubtitle.value = content.prizeSubtitle
   } else {
     dialogTitle.value = '遊戲結束'
     dialogMessage.value = '接到非 TTAN 料理，本局結束。'
+    dialogPrizeTitle.value = ''
+    dialogPrizeSubtitle.value = ''
   }
   showEndDialog.value = true
 }

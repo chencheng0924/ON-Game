@@ -109,6 +109,8 @@
       :visible="showEndDialog"
       :title="endDialogTitle"
       :message="endDialogMessage"
+      :prize-title="endDialogPrizeTitle"
+      :prize-subtitle="endDialogPrizeSubtitle"
       title-id="pinball-win-dialog-title"
       @play-again="onPlayAgain"
       @go-hub="goHub"
@@ -164,6 +166,8 @@ const rightDown = ref(false)
 const { handleGameWin } = useGameCouponReward()
 const endDialogTitle = ref('獲得優惠券！')
 const endDialogMessage = ref('')
+const endDialogPrizeTitle = ref('')
+const endDialogPrizeSubtitle = ref('')
 let plungerStart = 0
 
 const statusMsg = computed(() => {
@@ -175,7 +179,7 @@ const statusMsg = computed(() => {
 
 async function showCouponWinDialog() {
   const c = PINBALL_COUPONS[wonSlot.value % PINBALL_COUPONS.length]!
-  const detail = `得分 ${score.value.toLocaleString()}，獲得「${c.title}」— ${c.subtitle}`
+  const detail = `得分 ${score.value.toLocaleString()}`
   const content = await handleGameWin({
     couponTitle: c.title,
     couponSubtitle: c.subtitle,
@@ -183,6 +187,8 @@ async function showCouponWinDialog() {
   })
   endDialogTitle.value = content.title
   endDialogMessage.value = content.message
+  endDialogPrizeTitle.value = content.prizeTitle
+  endDialogPrizeSubtitle.value = content.prizeSubtitle
   showEndDialog.value = true
 }
 

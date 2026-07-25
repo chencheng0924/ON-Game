@@ -12,16 +12,18 @@
       aria-live="polite"
     >
       <p class="rounded-xl border bg-background px-6 py-4 text-sm font-medium text-foreground shadow-xl sm:text-base">
-        正在寄送優惠券…
+        {{ t('games.coupon.emailSending') }}
       </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import EmailGateDialog from '@/views/pages/Games/components/EmailGateDialog.vue'
 import { usePlayerStore } from '@/stores/playerStore'
 
+const { t } = useI18n()
 const playerStore = usePlayerStore()
 
 function onEmailConfirmed() {

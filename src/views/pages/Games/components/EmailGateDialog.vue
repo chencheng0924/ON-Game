@@ -11,10 +11,10 @@
         class="email-gate-panel mx-auto w-[min(100%,22rem)] rounded-xl border bg-background p-6 text-foreground shadow-xl sm:w-[min(100%,24rem)] sm:p-8"
       >
         <h2 id="email-gate-title" class="text-center text-lg font-bold sm:text-xl">
-          恭喜通關！
+          {{ t('games.coupon.emailTitle') }}
         </h2>
         <p class="mt-2 text-center text-sm text-muted-foreground sm:text-base">
-          請填寫 Email，我們將寄送優惠券至您的信箱。
+          {{ t('games.coupon.emailLead') }}
         </p>
 
         <form class="mt-5 space-y-4" @submit.prevent="onSubmit">
@@ -43,7 +43,7 @@
             class="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
             :disabled="playerStore.couponSending"
           >
-            {{ playerStore.couponSending ? '正在寄送優惠券…' : '發送優惠券' }}
+            {{ playerStore.couponSending ? t('games.coupon.emailSending') : t('games.coupon.emailSubmit') }}
           </button>
         </form>
       </div>
@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { VerificationExtension } from '@/utils/VerificationExtension'
 import { usePlayerStore } from '@/stores/playerStore'
 
@@ -64,6 +65,7 @@ const emit = defineEmits<{
   confirmed: []
 }>()
 
+const { t } = useI18n()
 const playerStore = usePlayerStore()
 const emailInput = ref(playerStore.email)
 const errorText = ref('')

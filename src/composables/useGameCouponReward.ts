@@ -1,36 +1,41 @@
+import { useI18n } from 'vue-i18n'
 import { EMAIL_SENDING_ENABLED, sendCouponEmail } from '@/services/couponEmailService'
 import { usePlayerStore } from '@/stores/playerStore'
 
 export interface GameCouponDialogContent {
   title: string
   message: string
+  prizeTitle: string
+  prizeSubtitle: string
 }
 
 export interface GameWinCouponOptions {
   couponTitle?: string
   couponSubtitle?: string
-  /** 遊戲專屬補充說明（顯示於優惠券訊息下方） */
+  /** Extra detail under the status message */
   detail?: string
 }
 
-const DEFAULT_COUPON_TITLE = 'ON GAME 優惠券'
-const DEFAULT_COUPON_SUBTITLE = '憑此券至櫃台兌換優惠'
-
 export function useGameCouponReward() {
   const playerStore = usePlayerStore()
+  const { t } = useI18n()
 
   async function handleGameWin(
     options: GameWinCouponOptions = {},
   ): Promise<GameCouponDialogContent> {
-    const couponTitle = options.couponTitle ?? DEFAULT_COUPON_TITLE
-    const couponSubtitle = options.couponSubtitle ?? DEFAULT_COUPON_SUBTITLE
+    const couponTitle = options.couponTitle ?? t('games.coupon.gotTitle')
+    const couponSubtitle = options.couponSubtitle ?? ''
     const detailSuffix = options.detail ? `\n${options.detail}` : ''
+    const prize = {
+      prizeTitle: couponTitle,
+      prizeSubtitle: couponSubtitle,
+    }
 
-    // 開發階段：不索取 email、不寄信，直接顯示優惠券結果
     if (!EMAIL_SENDING_ENABLED) {
       return {
-        title: '獲得優惠券！',
-        message: `恭喜通關！優惠券已準備好（開發階段暫不寄送 Email）。\n${couponTitle} — ${couponSubtitle}${detailSuffix}`,
+        title: t('games.coupon.gotTitle'),
+        message: `${t('games.coupon.sentDev')}${detailSuffix}`,
+        ...prize,
       }
     }
 
@@ -45,14 +50,19 @@ export function useGameCouponReward() {
         })
         playerStore.markCouponSent()
         return {
-          title: '獲得優惠券！',
-          message: `優惠券已發送至您的信箱，請查收！${detailSuffix}`,
+          title: t('games.coupon.gotTitle'),
+          message: `${t('games.coupon.sentInbox')}${detailSuffix}`,
+          ...prize,
         }
       } catch (error) {
         console.error('[coupon] 寄送優惠券失敗', error)
+        const reason = error instanceof Error && error.message
+          ? `\n(${error.message})`
+          : ''
         return {
-          title: '獲得優惠券！',
-          message: `優惠券寄送失敗，請稍後再試或聯絡客服。${detailSuffix}`,
+          title: t('games.coupon.gotTitle'),
+          message: `${t('games.coupon.sendFailed')}${reason}${detailSuffix}`,
+          ...prize,
         }
       } finally {
         playerStore.dismissEmailPrompt()
@@ -60,8 +70,9 @@ export function useGameCouponReward() {
     }
 
     return {
-      title: '獲得優惠券！',
-      message: `優惠券已發送！${detailSuffix}`,
+      title: t('games.coupon.gotTitle'),
+      message: `${t('games.coupon.sentAgain')}${detailSuffix}`,
+      ...prize,
     }
   }
 

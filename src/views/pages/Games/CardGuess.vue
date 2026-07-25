@@ -91,6 +91,8 @@
       :visible="showEndDialog"
       :title="endDialogTitle"
       :message="endDialogMessage"
+      :prize-title="endDialogPrizeTitle"
+      :prize-subtitle="endDialogPrizeSubtitle"
       title-id="card-guess-end-dialog-title"
       @play-again="onPlayAgain"
       @go-hub="goHub"
@@ -153,6 +155,8 @@ const lastResult = ref<'win' | 'lose'>('win')
 const { handleGameWin } = useGameCouponReward()
 const endDialogTitle = ref('遊戲結束')
 const endDialogMessage = ref('')
+const endDialogPrizeTitle = ref('')
+const endDialogPrizeSubtitle = ref('')
 
 let memorizeTimerId: ReturnType<typeof setTimeout> | null = null
 let flipBackTimerId: ReturnType<typeof setTimeout> | null = null
@@ -240,6 +244,8 @@ async function showWinCouponDialog() {
   })
   endDialogTitle.value = content.title
   endDialogMessage.value = content.message
+  endDialogPrizeTitle.value = content.prizeTitle
+  endDialogPrizeSubtitle.value = content.prizeSubtitle
   showEndDialog.value = true
 }
 
@@ -248,6 +254,8 @@ function endGameAsLost() {
   lastResult.value = 'lose'
   endDialogTitle.value = '遊戲結束'
   endDialogMessage.value = `已猜錯 ${MAX_WRONG_GUESSES} 次，再接再厲！`
+  endDialogPrizeTitle.value = ''
+  endDialogPrizeSubtitle.value = ''
   showEndDialog.value = true
 }
 

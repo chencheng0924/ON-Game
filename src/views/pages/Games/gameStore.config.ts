@@ -2,9 +2,12 @@ import onWelcome from '@/assets/store/on-welcome.png'
 import onWelcomeMobile from '@/assets/store/on-welcome-mobile.png'
 import onExterior from '@/assets/store/on-exterior.png'
 import onBoilBg from '@/assets/store/on-boil-bg.png'
+import onLogo from '@/assets/store/logo.png'
 
 /** ON 店面場景圖片 */
 export const STORE_IMAGES = {
+  /** 品牌 Logo */
+  logo: onLogo,
   /** 歡迎牌（手繪食材） */
   welcome: onWelcome,
   /** 歡迎牌（手機直式裁切） */

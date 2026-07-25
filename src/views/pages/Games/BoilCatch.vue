@@ -11,17 +11,17 @@
     <section
       ref="displayRef"
       class="boil-display relative z-10 min-h-0 overflow-hidden"
-      aria-label="遊戲顯示區"
+      :aria-label="t('games.boil.displayAria')"
     >
       <div class="boil-hud pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-2 p-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:p-4">
         <div class="hud-badge">
-          食材 <span class="font-bold text-[var(--on-white)]">{{ score }}</span>
+          {{ t('games.boil.hudScore') }} <span class="font-bold text-[var(--on-white)]">{{ score }}</span>
         </div>
         <div
           class="hud-badge"
           :class="timeLeft <= 5 ? 'hud-badge--urgent' : ''"
         >
-          {{ timeLeft }} 秒
+          {{ t('common.seconds', { n: timeLeft }) }}
         </div>
       </div>
 
@@ -29,12 +29,12 @@
         v-if="gameState === 'idle'"
         class="boil-idle absolute inset-0 z-10 flex flex-col items-center justify-center p-4"
       >
-        <p class="brand-mark">ON</p>
+        <img class="brand-logo" :src="onLogo" alt="ON">
         <h1 class="game-title">
-          熬煮時間與食材
+          {{ t('games.hub.boil.title') }}
         </h1>
         <p class="mt-2 max-w-sm text-center text-sm leading-relaxed text-[var(--on-cream)]/90 sm:text-base">
-          20 秒內接住新鮮食材，閃避劣質調味粉
+          {{ t('games.boil.idleLead') }}
         </p>
         <div class="mt-6 flex w-full max-w-xs flex-col items-center gap-3">
           <button
@@ -42,13 +42,13 @@
             class="on-btn w-full min-w-[10rem] px-8"
             @click="showRules = true"
           >
-            開始遊戲
+            {{ t('games.boil.startGame') }}
           </button>
           <RouterLink
             to="/"
             class="text-sm text-[var(--on-cream)]/55 underline-offset-2 hover:text-[var(--on-white)] hover:underline"
           >
-            返回遊戲中心
+            {{ t('common.backToHub') }}
           </RouterLink>
         </div>
       </div>
@@ -61,13 +61,14 @@
         :style="itemStyle(item)"
       >
         <span class="falling-item__emoji" aria-hidden="true">{{ item.emoji }}</span>
-        <span class="falling-item__name">{{ item.name }}</span>
+        <span class="falling-item__name">{{ t(item.nameKey) }}</span>
       </div>
 
       <div
+        ref="playerRef"
         class="player absolute -translate-x-1/2"
         :style="playerStyle"
-        aria-label="鐵鍋，左右移動接取食材"
+        :aria-label="t('games.boil.potAria')"
       >
         <PlayerWithPot />
       </div>
@@ -75,12 +76,12 @@
 
     <section
       class="boil-controls relative z-10 flex min-h-12 items-center justify-between gap-4 border-t border-[var(--on-cream)]/25 bg-black/90 px-6 pb-[max(0.25rem,env(safe-area-inset-bottom))] backdrop-blur-md sm:min-h-14 sm:px-12 md:px-16"
-      aria-label="操作區"
+      :aria-label="t('games.boil.controlsAria')"
     >
       <button
         type="button"
         class="control-btn"
-        aria-label="向左移動"
+        :aria-label="t('games.boil.moveLeft')"
         :disabled="!canMove"
         @pointerdown.prevent="onMoveStart(-1)"
         @pointerup="onMoveEnd"
@@ -92,7 +93,7 @@
       <button
         type="button"
         class="control-btn"
-        aria-label="向右移動"
+        :aria-label="t('games.boil.moveRight')"
         :disabled="!canMove"
         @pointerdown.prevent="onMoveStart(1)"
         @pointerup="onMoveEnd"
@@ -120,16 +121,16 @@
         >
           <div class="rules-panel">
             <h2 id="boil-rules-title" class="rules-panel__title">
-              {{ BOIL_RULES.title }}
+              {{ t('games.boil.rules.title') }}
             </h2>
-            <p class="rules-panel__body">{{ BOIL_RULES.body }}</p>
-            <p class="rules-panel__how">{{ BOIL_RULES.howTo }}</p>
+            <p class="rules-panel__body">{{ t('games.boil.rules.body') }}</p>
+            <p class="rules-panel__how">{{ t('games.boil.rules.howTo') }}</p>
             <div class="mt-5 flex flex-col gap-2">
               <button type="button" class="on-btn w-full" @click="confirmRulesAndStart">
-                開始熬煮
+                {{ t('games.boil.startCook') }}
               </button>
               <button type="button" class="on-btn on-btn--ghost w-full" @click="showRules = false">
-                先不要
+                {{ t('games.boil.notNow') }}
               </button>
             </div>
           </div>
@@ -141,6 +142,8 @@
       :visible="showEndDialog"
       :title="dialogTitle"
       :message="dialogMessage"
+      :prize-title="dialogPrizeTitle"
+      :prize-subtitle="dialogPrizeSubtitle"
       title-id="boil-game-dialog-title"
       @play-again="onPlayAgain"
       @go-hub="goHub"
@@ -150,6 +153,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import GameCouponDialog from '@/views/pages/Games/components/GameCouponDialog.vue'
@@ -160,15 +164,22 @@ import {
   BOIL_GAME_DURATION_SEC,
   BOIL_ITEM_CONFIG,
   BOIL_PLAYER_CONFIG,
-  BOIL_RULES,
   BOIL_SPAWN_CONFIG,
   BOIL_TRAP_CONFIG,
+  BOIL_WIN_SCORE,
   GOOD_INGREDIENTS,
   TRAP_SEASONINGS,
   type BoilIngredientConfig,
   type BoilTrapConfig,
 } from '@/views/pages/Games/boilCatch.config'
-import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
+import {
+  getCouponCopy,
+  pickBoilCatchBaseCoupon,
+  resolveFinalCoupon,
+} from '@/views/pages/Games/gameCoupons.config'
+import { PAGE_BG, STORE_IMAGES } from '@/views/pages/Games/gameStore.config'
+
+const onLogo = STORE_IMAGES.logo
 
 type GameState = 'idle' | 'playing' | 'ended'
 
@@ -177,7 +188,7 @@ type FallingItem =
       id: number
       kind: 'good'
       emoji: string
-      name: string
+      nameKey: string
       score: number
       x: number
       y: number
@@ -188,7 +199,7 @@ type FallingItem =
       id: number
       kind: 'trap'
       emoji: string
-      name: string
+      nameKey: string
       score: number
       x: number
       y: number
@@ -196,8 +207,10 @@ type FallingItem =
       vy: number
     }
 
+const { t } = useI18n()
 const router = useRouter()
 const displayRef = ref<HTMLElement | null>(null)
+const playerRef = ref<HTMLElement | null>(null)
 const gameState = ref<GameState>('idle')
 const score = ref(0)
 const timeLeft = ref(BOIL_GAME_DURATION_SEC)
@@ -207,8 +220,10 @@ const fallingItems = shallowRef<FallingItem[]>([])
 const showEndDialog = ref(false)
 const showRules = ref(false)
 const { handleGameWin } = useGameCouponReward()
-const dialogTitle = ref('時間到！')
+const dialogTitle = ref('')
 const dialogMessage = ref('')
+const dialogPrizeTitle = ref('')
+const dialogPrizeSubtitle = ref('')
 
 let itemIdSeq = 0
 let rafId = 0
@@ -272,7 +287,7 @@ function spawnItem() {
         id: ++itemIdSeq,
         kind: 'trap',
         emoji: trap.emoji,
-        name: trap.name,
+        nameKey: trap.nameKey,
         score: 0,
         x: spawnX,
         y: -4,
@@ -290,7 +305,7 @@ function spawnItem() {
       id: ++itemIdSeq,
       kind: 'good',
       emoji: good.emoji,
-      name: good.name,
+      nameKey: good.nameKey,
       score: good.score,
       x: spawnX,
       y: -4,
@@ -300,29 +315,51 @@ function spawnItem() {
   ]
 }
 
+/**
+ * 依實際 DOM 量測鍋口接取區（百分比座標），避免 hitbox 比視覺鍋口偏大／偏上。
+ * 量測失敗時退回近似值。
+ */
 function getPlayerHitbox() {
-  const halfW = BOIL_PLAYER_CONFIG.widthPercent / 2
-  const potH = BOIL_PLAYER_CONFIG.potHitboxHeightPercent
-  const bottom = BOIL_PLAYER_CONFIG.bottomPercent
+  const display = displayRef.value
+  const player = playerRef.value
+  const mouth = BOIL_PLAYER_CONFIG.potMouth
+
+  if (display && player) {
+    const d = display.getBoundingClientRect()
+    const p = player.getBoundingClientRect()
+    if (d.width > 0 && d.height > 0 && p.width > 0 && p.height > 0) {
+      return {
+        left: ((p.left - d.left) + p.width * mouth.leftRatio) / d.width * 100,
+        right: ((p.left - d.left) + p.width * mouth.rightRatio) / d.width * 100,
+        top: ((p.top - d.top) + p.height * mouth.topRatio) / d.height * 100,
+        bottom: ((p.top - d.top) + p.height * mouth.bottomRatio) / d.height * 100,
+      }
+    }
+  }
+
+  // fallback：以邏輯座標近似鍋口
+  const halfW = (BOIL_PLAYER_CONFIG.widthPercent * (mouth.rightRatio - mouth.leftRatio)) / 2
+  const mouthCenterY = 100 - BOIL_PLAYER_CONFIG.bottomPercent - 6
   return {
     left: playerX.value - halfW,
     right: playerX.value + halfW,
-    top: 100 - bottom - potH,
-    bottom: 100 - bottom + 1,
+    top: mouthCenterY - 2.5,
+    bottom: mouthCenterY + 2.5,
   }
 }
 
 function hitsPlayer(item: FallingItem, hitbox: ReturnType<typeof getPlayerHitbox>) {
-  const radius = BOIL_ITEM_CONFIG.sizeVmin * 0.35
+  const radius = BOIL_ITEM_CONFIG.hitRadiusPercent
+  const itemY = item.y + BOIL_ITEM_CONFIG.hitCenterYOffsetPercent
   return (
     item.x + radius > hitbox.left
     && item.x - radius < hitbox.right
-    && item.y + radius > hitbox.top
-    && item.y - radius < hitbox.bottom
+    && itemY + radius > hitbox.top
+    && itemY - radius < hitbox.bottom
   )
 }
 
-function endGame(reason: 'trap' | 'timeout') {
+function endGame(reason: 'trap' | 'timeout' | 'score') {
   if (gameState.value === 'ended') return
   gameState.value = 'ended'
   moveDirection.value = 0
@@ -330,18 +367,24 @@ function endGame(reason: 'trap' | 'timeout') {
   stopLoops()
 }
 
-async function showEndDialogForReason(reason: 'trap' | 'timeout') {
-  if (reason === 'timeout') {
+async function showEndDialogForReason(reason: 'trap' | 'timeout' | 'score') {
+  if (reason === 'timeout' || reason === 'score') {
+    const coupon = resolveFinalCoupon(pickBoilCatchBaseCoupon())
+    const copy = getCouponCopy(coupon, t)
     const content = await handleGameWin({
-      couponTitle: '熬煮時間與食材優惠券',
-      couponSubtitle: '與 ON 一起熬出最溫的湯',
-      detail: `本次接住優質食材得分 ${score.value} 分`,
+      couponTitle: copy.title,
+      couponSubtitle: copy.subtitle,
+      detail: t('games.boil.scoreDetail', { score: score.value }),
     })
     dialogTitle.value = content.title
     dialogMessage.value = content.message
+    dialogPrizeTitle.value = content.prizeTitle
+    dialogPrizeSubtitle.value = content.prizeSubtitle
   } else {
-    dialogTitle.value = '湯頭失準…'
-    dialogMessage.value = '接到劣質調味粉，本局熬煮失敗。再試一次，堅持新鮮食材！'
+    dialogTitle.value = t('games.boil.failTitle')
+    dialogMessage.value = t('games.boil.failMessage')
+    dialogPrizeTitle.value = ''
+    dialogPrizeSubtitle.value = ''
   }
   showEndDialog.value = true
 }
@@ -394,6 +437,10 @@ function gameLoop(timestamp: number) {
         return
       }
       score.value += next.score
+      if (score.value >= BOIL_WIN_SCORE) {
+        endGame('score')
+        return
+      }
       continue
     }
 
@@ -485,14 +532,12 @@ onUnmounted(() => {
   touch-action: none;
 }
 
-.brand-mark {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 10vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--on-white);
-  text-shadow: 0 4px 24px rgb(0 0 0 / 0.55);
-  line-height: 1;
+.brand-logo {
+  display: block;
+  width: min(7.5rem, 36vw);
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 24px rgb(0 0 0 / 0.55));
 }
 
 .game-title {

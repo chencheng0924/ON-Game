@@ -1,38 +1,39 @@
 /**
- * 熬煮時間與食材 — 遊戲設定
+ * Simmering Soups & Selected Ingredients — game config
  */
 
 export const BOIL_GAME_DURATION_SEC = 20
+/** Reach this score within time to win early (also survive without traps) */
+export const BOIL_WIN_SCORE = 100
 
 export interface BoilIngredientConfig {
   id: string
-  name: string
+  nameKey: string
   emoji: string
-  /** 接到後加分 */
   score: number
   spawnWeight: number
 }
 
-/** 優質新鮮食材（要接住） */
+/** Fresh ingredients (catch these) */
 export const GOOD_INGREDIENTS: readonly BoilIngredientConfig[] = [
-  { id: 'bone', name: '牛大骨', emoji: '🦴', score: 12, spawnWeight: 22 },
-  { id: 'radish', name: '新鮮蘿蔔', emoji: '🥕', score: 10, spawnWeight: 26 },
-  { id: 'garlic', name: '新鮮大蒜', emoji: '🧄', score: 10, spawnWeight: 26 },
-  { id: 'scallion', name: '蔥', emoji: '🧅', score: 8, spawnWeight: 26 },
+  { id: 'bone', nameKey: 'games.boil.ingredients.bone', emoji: '🦴', score: 12, spawnWeight: 22 },
+  { id: 'vegetables', nameKey: 'games.boil.ingredients.vegetables', emoji: '🥬', score: 10, spawnWeight: 26 },
+  { id: 'scallion', nameKey: 'games.boil.ingredients.scallion', emoji: '🧅', score: 8, spawnWeight: 26 },
+  { id: 'salt', nameKey: 'games.boil.ingredients.salt', emoji: '🧂', score: 10, spawnWeight: 26 },
 ] as const
 
 export interface BoilTrapConfig {
   id: string
-  name: string
+  nameKey: string
   emoji: string
 }
 
-/** 劣質調味粉／加工品（要閃避） */
+/** Low-quality additives (dodge these) */
 export const TRAP_SEASONINGS: readonly BoilTrapConfig[] = [
-  { id: 'msg', name: 'MSG 味精包', emoji: '🧂' },
-  { id: 'dye', name: '人工化學色素', emoji: '🧪' },
-  { id: 'processed', name: '加工調味粉', emoji: '📦' },
-  { id: 'chemical', name: '化學添加物', emoji: '⚠️' },
+  { id: 'msg', nameKey: 'games.boil.traps.msg', emoji: '☠️' },
+  { id: 'dye', nameKey: 'games.boil.traps.dye', emoji: '🧪' },
+  { id: 'processed', nameKey: 'games.boil.traps.processed', emoji: '📦' },
+  { id: 'chemical', nameKey: 'games.boil.traps.chemical', emoji: '⚠️' },
 ] as const
 
 export const BOIL_TRAP_CONFIG = {
@@ -51,15 +52,19 @@ export const BOIL_PLAYER_CONFIG = {
   widthPercent: 18,
   bottomPercent: 1,
   moveSpeed: 58,
-  potHitboxHeightPercent: 8,
+  /**
+   * Pot mouth catch zone (ratios relative to player element)
+   */
+  potMouth: {
+    leftRatio: 0.22,
+    rightRatio: 0.78,
+    topRatio: 0.42,
+    bottomRatio: 0.62,
+  },
 } as const
 
 export const BOIL_ITEM_CONFIG = {
   sizeVmin: 14,
-} as const
-
-export const BOIL_RULES = {
-  title: '玩法說明',
-  body: 'ON 堅持採用新鮮食材，湯頭長時間的熬煮才能真正做出好吃的食物給客人。請您在時間內接住「新鮮天然食材」，與我們一起製作出最 ON 的湯。',
-  howTo: '左右滑動鐵鍋，在 20 秒內接住優質食材（牛大骨、新鮮蘿蔔、新鮮大蒜、蔥），閃避劣質調味粉（MSG 味精包、人工化學色素、加工調味粉）。只要 20 秒內沒有接到劣質調味粉，即可獲得優惠券！',
+  hitRadiusPercent: 2.2,
+  hitCenterYOffsetPercent: -1.8,
 } as const

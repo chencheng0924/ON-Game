@@ -13,19 +13,25 @@ export const useLangStore = defineStore('lang', () => {
   const langCode = ref<LocaleCode>(i18n.global.locale.value as LocaleCode)
   const currentLang = computed(() => i18n.global.locale.value as LocaleCode)
 
+  const applyLocale = (next: LocaleCode) => {
+    i18n.global.locale.value = next
+    langCode.value = next
+    Session.setSessionLang(next)
+  }
+
+  /** 傳入 locale 可直接設定；不傳則在 en-US / zh-TW 間切換 */
   const setLang = (current?: string) => {
-    if (current == null) {
-      const next: LocaleCode = currentLang.value === EN ? TW : EN
-      i18n.global.locale.value = next
-      langCode.value = next
-      Session.setSessionLang(next)
+    if (current != null && isValidLocale(current)) {
+      applyLocale(current)
+      return
     }
+    applyLocale(currentLang.value === EN ? TW : EN)
   }
 
   const reloadSetLang = () => {
     const lang = Session.getSessionLang()
-    if (lang != null && lang !== '') {
-      setLang(lang)
+    if (lang != null && isValidLocale(lang)) {
+      applyLocale(lang)
     }
   }
 
