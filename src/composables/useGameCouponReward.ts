@@ -23,19 +23,25 @@ export function useGameCouponReward() {
   async function handleGameWin(
     options: GameWinCouponOptions = {},
   ): Promise<GameCouponDialogContent> {
-    const couponTitle = options.couponTitle ?? t('games.coupon.gotTitle')
-    const couponSubtitle = options.couponSubtitle ?? ''
     const detailSuffix = options.detail ? `\n${options.detail}` : ''
+
+    // 已發過券：不論哪款遊戲，都固定顯示第一次的獎項
+    const locked = playerStore.issuedPrize
+    const couponTitle = locked?.title || options.couponTitle || t('games.coupon.gotTitle')
+    const couponSubtitle = locked?.subtitle || options.couponSubtitle || ''
     const prize = {
       prizeTitle: couponTitle,
       prizeSubtitle: couponSubtitle,
     }
 
     if (!EMAIL_SENDING_ENABLED) {
+      // 開發模式也鎖定第一次出現的獎項，避免換遊戲看到不同券
+      playerStore.lockIssuedPrize({ title: couponTitle, subtitle: couponSubtitle })
       return {
         title: t('games.coupon.gotTitle'),
         message: `${t('games.coupon.sentDev')}${detailSuffix}`,
-        ...prize,
+        prizeTitle: playerStore.issuedPrize?.title || couponTitle,
+        prizeSubtitle: playerStore.issuedPrize?.subtitle || couponSubtitle,
       }
     }
 
@@ -48,7 +54,7 @@ export function useGameCouponReward() {
           couponTitle,
           couponSubtitle,
         })
-        playerStore.markCouponSent()
+        playerStore.markCouponSent({ title: couponTitle, subtitle: couponSubtitle })
         return {
           title: t('games.coupon.gotTitle'),
           message: `${t('games.coupon.sentInbox')}${detailSuffix}`,
@@ -72,7 +78,8 @@ export function useGameCouponReward() {
     return {
       title: t('games.coupon.gotTitle'),
       message: `${t('games.coupon.sentAgain')}${detailSuffix}`,
-      ...prize,
+      prizeTitle: playerStore.issuedPrize?.title || couponTitle,
+      prizeSubtitle: playerStore.issuedPrize?.subtitle || couponSubtitle,
     }
   }
 
