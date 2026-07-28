@@ -11,11 +11,11 @@ export const EMAIL_SENDING_ENABLED = true
  * 或直接改下方常數。
  */
 const EMAILJS_SERVICE_ID =
-  import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_wc6rtfg'
+  import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_q2tnnyg'
 const EMAILJS_TEMPLATE_ID =
-  import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_coabk2g'
+  import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_nganqbh'
 const EMAILJS_PUBLIC_KEY =
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'xN8DZaI-Qs-hH1yg8'
+  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '3bAFQj1mn5zBagdoY'
 
 /**
  * 寄信內嵌圖必須是「公開 HTTPS」網址。
