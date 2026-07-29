@@ -46,7 +46,7 @@
       "emailSubmit": "Send coupon",
       "groupCrab": {
         "title": "Group Discount",
-        "subtitle": "4 guests dining together get a free soy-marinated crab"
+        "subtitle": "6 guests dining together get a free soy-marinated crab"
       },
       "takeoutDiscount": {
         "title": "20% Off Takeout",
@@ -75,13 +75,18 @@
       "rules": {
         "title": "How to play",
         "body": "ON is committed to using fresh ingredients with no low-quality additives. Only through long hours of simmering can we serve bowl after bowl of delicious soup to our guests. Catch the \"fresh, natural ingredients\" within the time limit and help us serve up the food!",
-        "howTo": "Swipe the cast iron pot left and right to catch high-quality ingredients (beef bones, vegetables, scallions, salt) within 20 seconds, while dodging low-quality additives (MSG, artificial dyes, processed seasoning powders). Avoid catching any low-quality seasoning powders or score 100 points within 20 seconds to claim our grand opening coupon!"
+        "howTo": "Swipe the cast iron pot left and right to catch high-quality ingredients (beef neck bones, onion, sliced ginger, garlic, scallions, black pepper, daikon radish, water, wagyu beef tallow) within 20 seconds, while dodging low-quality additives (MSG, artificial dyes, processed seasoning powders). Avoid catching any low-quality seasoning powders or score 100 points within 20 seconds to claim our grand opening coupon!"
       },
       "ingredients": {
-        "bone": "Beef bones",
-        "vegetables": "Vegetables",
+        "neckBone": "Beef neck bones",
+        "onion": "Onion",
+        "ginger": "Sliced ginger",
+        "garlic": "Garlic",
         "scallion": "Scallions",
-        "salt": "Salt"
+        "blackPepper": "Black pepper",
+        "daikon": "Daikon radish",
+        "water": "Water",
+        "wagyuTallow": "Wagyu beef tallow"
       },
       "traps": {
         "msg": "MSG",

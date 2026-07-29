@@ -47,7 +47,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMediaQuery } from '@vueuse/core'
-import koreanTofuPot from '@/assets/food/korean-tofu-pot.png'
+import koreanTofuPot from '@/assets/food/korean-tofu-pot.jpg'
 import { PAGE_BG, STORE_IMAGES } from '@/views/pages/Games/gameStore.config'
 
 const onLogo = STORE_IMAGES.logo

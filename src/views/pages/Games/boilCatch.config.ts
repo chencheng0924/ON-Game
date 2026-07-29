@@ -16,10 +16,15 @@ export interface BoilIngredientConfig {
 
 /** Fresh ingredients (catch these) */
 export const GOOD_INGREDIENTS: readonly BoilIngredientConfig[] = [
-  { id: 'bone', nameKey: 'games.boil.ingredients.bone', emoji: '🦴', score: 12, spawnWeight: 22 },
-  { id: 'vegetables', nameKey: 'games.boil.ingredients.vegetables', emoji: '🥬', score: 10, spawnWeight: 26 },
-  { id: 'scallion', nameKey: 'games.boil.ingredients.scallion', emoji: '🧅', score: 8, spawnWeight: 26 },
-  { id: 'salt', nameKey: 'games.boil.ingredients.salt', emoji: '🧂', score: 10, spawnWeight: 26 },
+  { id: 'neckBone', nameKey: 'games.boil.ingredients.neckBone', emoji: '🦴', score: 12, spawnWeight: 12 },
+  { id: 'onion', nameKey: 'games.boil.ingredients.onion', emoji: '🧅', score: 10, spawnWeight: 12 },
+  { id: 'ginger', nameKey: 'games.boil.ingredients.ginger', emoji: '🫚', score: 10, spawnWeight: 11 },
+  { id: 'garlic', nameKey: 'games.boil.ingredients.garlic', emoji: '🧄', score: 10, spawnWeight: 11 },
+  { id: 'scallion', nameKey: 'games.boil.ingredients.scallion', emoji: '🌿', score: 8, spawnWeight: 11 },
+  { id: 'blackPepper', nameKey: 'games.boil.ingredients.blackPepper', emoji: '🌶️', score: 8, spawnWeight: 10 },
+  { id: 'daikon', nameKey: 'games.boil.ingredients.daikon', emoji: '🥕', score: 10, spawnWeight: 11 },
+  { id: 'water', nameKey: 'games.boil.ingredients.water', emoji: '💧', score: 8, spawnWeight: 11 },
+  { id: 'wagyuTallow', nameKey: 'games.boil.ingredients.wagyuTallow', emoji: '🧈', score: 12, spawnWeight: 11 },
 ] as const
 
 export interface BoilTrapConfig {
