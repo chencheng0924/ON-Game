@@ -6,7 +6,7 @@ import emailjs from '@emailjs/browser'
 export const EMAIL_SENDING_ENABLED = true
 
 /** true = 測試帳號；false = 正式帳號。測完上線前改回 false */
-const USE_TEST_EMAILJS = false
+const USE_TEST_EMAILJS = true
 
 const EMAILJS_PROD = {
   serviceId: 'service_ewm5gs5',
