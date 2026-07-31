@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import type { CouponContactPayload } from '@/services/couponEmailService'
 
+const FIRST_NAME_KEY = 'ny-game-player-first-name'
+const LAST_NAME_KEY = 'ny-game-player-last-name'
+const PHONE_KEY = 'ny-game-player-phone'
 const EMAIL_KEY = 'ny-game-player-email'
 const COUPON_SENT_KEY = 'ny-game-coupon-sent'
 const COUPON_PRIZE_KEY = 'ny-game-coupon-prize'
@@ -44,21 +48,46 @@ function readIssuedPrize(): IssuedCouponPrize | null {
 }
 
 export const usePlayerStore = defineStore('playerStore', () => {
+  const firstName = ref(readStorage(FIRST_NAME_KEY) ?? '')
+  const lastName = ref(readStorage(LAST_NAME_KEY) ?? '')
+  const phone = ref(readStorage(PHONE_KEY) ?? '')
   const email = ref(readStorage(EMAIL_KEY) ?? '')
   const couponSent = ref(readStorage(COUPON_SENT_KEY) === '1')
   const issuedPrize = ref<IssuedCouponPrize | null>(readIssuedPrize())
   const emailPromptVisible = ref(false)
   const couponSending = ref(false)
 
-  let emailPromptResolve: ((value: string) => void) | null = null
+  let contactPromptResolve: ((value: CouponContactPayload) => void) | null = null
 
-  const hasEmail = computed(() => email.value.trim().length > 0)
+  const contactInfo = computed<CouponContactPayload>(() => ({
+    firstName: firstName.value.trim(),
+    lastName: lastName.value.trim(),
+    phone: phone.value.trim(),
+    email: email.value.trim(),
+  }))
+
+  const hasContactInfo = computed(() => {
+    const c = contactInfo.value
+    return !!(c.firstName && c.lastName && c.phone && c.email)
+  })
+
   const hasIssuedPrize = computed(() => !!issuedPrize.value?.title)
 
-  function setEmail(value: string) {
-    const trimmed = value.trim()
-    email.value = trimmed
-    writeStorage(EMAIL_KEY, trimmed)
+  function setContactInfo(value: CouponContactPayload) {
+    const next = {
+      firstName: value.firstName.trim(),
+      lastName: value.lastName.trim(),
+      phone: value.phone.trim(),
+      email: value.email.trim(),
+    }
+    firstName.value = next.firstName
+    lastName.value = next.lastName
+    phone.value = next.phone
+    email.value = next.email
+    writeStorage(FIRST_NAME_KEY, next.firstName)
+    writeStorage(LAST_NAME_KEY, next.lastName)
+    writeStorage(PHONE_KEY, next.phone)
+    writeStorage(EMAIL_KEY, next.email)
   }
 
   /** 鎖定本次 session 已發過的獎項（之後各遊戲都顯示同一張） */
@@ -79,23 +108,21 @@ export const usePlayerStore = defineStore('playerStore', () => {
     if (prize) lockIssuedPrize(prize)
   }
 
-  function requestEmailForCoupon(): Promise<string> {
-    const trimmed = email.value.trim()
-    if (trimmed.length > 0) {
-      return Promise.resolve(trimmed)
+  function requestContactForCoupon(): Promise<CouponContactPayload> {
+    if (hasContactInfo.value) {
+      return Promise.resolve(contactInfo.value)
     }
 
     return new Promise((resolve) => {
-      emailPromptResolve = resolve
+      contactPromptResolve = resolve
       emailPromptVisible.value = true
     })
   }
 
   function confirmEmailPrompt() {
-    const trimmed = email.value.trim()
     couponSending.value = true
-    emailPromptResolve?.(trimmed)
-    emailPromptResolve = null
+    contactPromptResolve?.(contactInfo.value)
+    contactPromptResolve = null
   }
 
   function dismissEmailPrompt() {
@@ -104,23 +131,30 @@ export const usePlayerStore = defineStore('playerStore', () => {
   }
 
   function initFromStorage() {
+    firstName.value = readStorage(FIRST_NAME_KEY) ?? ''
+    lastName.value = readStorage(LAST_NAME_KEY) ?? ''
+    phone.value = readStorage(PHONE_KEY) ?? ''
     email.value = readStorage(EMAIL_KEY) ?? ''
     couponSent.value = readStorage(COUPON_SENT_KEY) === '1'
     issuedPrize.value = readIssuedPrize()
   }
 
   return {
+    firstName,
+    lastName,
+    phone,
     email,
     couponSent,
     issuedPrize,
     emailPromptVisible,
     couponSending,
-    hasEmail,
+    contactInfo,
+    hasContactInfo,
     hasIssuedPrize,
-    setEmail,
+    setContactInfo,
     lockIssuedPrize,
     markCouponSent,
-    requestEmailForCoupon,
+    requestContactForCoupon,
     confirmEmailPrompt,
     dismissEmailPrompt,
     initFromStorage,

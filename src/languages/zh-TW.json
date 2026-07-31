@@ -41,9 +41,20 @@
       "sendFailed": "優惠券寄送失敗，請稍後再試或聯絡客服。",
       "prizeLabel": "你的獎項",
       "emailTitle": "恭喜通關！",
-      "emailLead": "請填寫 Email，我們將寄送優惠券至您的信箱。",
+      "emailLead": "請填寫以下資料，我們將寄送優惠券至您的信箱。",
       "emailSending": "正在寄送優惠券…",
       "emailSubmit": "發送優惠券",
+      "fields": {
+        "firstName": "名字",
+        "lastName": "姓氏",
+        "phone": "電話",
+        "email": "Email"
+      },
+      "errors": {
+        "required": "此欄位必填",
+        "emailInvalid": "請輸入正確的 Email",
+        "phoneInvalid": "請輸入正確的電話號碼"
+      },
       "groupCrab": {
         "title": "六個人同行即贈送一份醬蟹",
         "subtitle": "六人同行贈醬蟹乙份"

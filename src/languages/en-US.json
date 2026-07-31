@@ -41,9 +41,20 @@
       "sendFailed": "Failed to send the coupon. Please try again later or contact us.",
       "prizeLabel": "Your prize",
       "emailTitle": "You cleared the game!",
-      "emailLead": "Enter your email and we'll send your coupon.",
+      "emailLead": "Fill in your details and we'll send your coupon.",
       "emailSending": "Sending coupon…",
       "emailSubmit": "Send coupon",
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phone": "Phone Number",
+        "email": "Email"
+      },
+      "errors": {
+        "required": "This field is required",
+        "emailInvalid": "Please enter a valid email",
+        "phoneInvalid": "Please enter a valid phone number"
+      },
       "groupCrab": {
         "title": "Groups of six or more receive a complimentary soy-marinated crab.",
         "subtitle": "Dine with 6 guests to redeem"

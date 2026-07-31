@@ -5,29 +5,21 @@ import emailjs from '@emailjs/browser'
  */
 export const EMAIL_SENDING_ENABLED = true
 
-/** true = 測試帳號；false = 正式帳號。測完上線前改回 false */
-const USE_TEST_EMAILJS = true
-
-const EMAILJS_PROD = {
-  serviceId: 'service_ewm5gs5',
-  templateId: 'template_dz022dk',
-  publicKey: 'w7umiByLTZKdD62a8',
-} as const
-
-const EMAILJS_TEST = {
+/** 寄給客人的優惠券信（原測試帳號） */
+const CUSTOMER_EMAILJS = {
   serviceId: 'service_q2tnnyg',
   templateId: 'template_nganqbh',
   publicKey: '3bAFQj1mn5zBagdoY',
 } as const
 
-const emailjsConfig = USE_TEST_EMAILJS ? EMAILJS_TEST : EMAILJS_PROD
+/** 寄到內部信箱、搜集客人資料（原正式帳號） */
+const LEAD_EMAILJS = {
+  serviceId: 'service_ewm5gs5',
+  templateId: 'template_dz022dk',
+  publicKey: 'w7umiByLTZKdD62a8',
+} as const
 
-const EMAILJS_SERVICE_ID =
-  import.meta.env.VITE_EMAILJS_SERVICE_ID || emailjsConfig.serviceId
-const EMAILJS_TEMPLATE_ID =
-  import.meta.env.VITE_EMAILJS_TEMPLATE_ID || emailjsConfig.templateId
-const EMAILJS_PUBLIC_KEY =
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || emailjsConfig.publicKey
+const LEAD_INBOX = 'onkoreannyc@gmail.com'
 
 /**
  * 寄信內嵌圖必須是「公開 HTTPS」網址。
@@ -61,37 +53,91 @@ function resolveCouponImageUrl(): string {
   return PUBLIC_COUPON_IMAGE_URL
 }
 
-export interface CouponEmailPayload {
-  toEmail: string
+function formatEmailjsError(error: unknown): Error {
+  const status = (error as { status?: number })?.status
+  const text = (error as { text?: string })?.text
+  console.error('[coupon] EmailJS 失敗', { status, text, error })
+  return new Error(text || (error as Error)?.message || 'EmailJS send failed')
+}
+
+export interface CouponContactPayload {
+  firstName: string
+  lastName: string
+  phone: string
+  email: string
+}
+
+export interface CouponEmailPayload extends CouponContactPayload {
   couponTitle: string
   couponSubtitle?: string
 }
 
+async function sendCustomerCouponEmail(payload: CouponEmailPayload): Promise<void> {
+  const couponImageUrl = resolveCouponImageUrl()
+
+  await emailjs.send(
+    CUSTOMER_EMAILJS.serviceId,
+    CUSTOMER_EMAILJS.templateId,
+    {
+      to_email: payload.email,
+      user_email: payload.email,
+      first_name: payload.firstName,
+      last_name: payload.lastName,
+      phone: payload.phone,
+      coupon_title: payload.couponTitle,
+      coupon_subtitle: payload.couponSubtitle ?? '',
+      coupon_image_url: couponImageUrl,
+    },
+    { publicKey: CUSTOMER_EMAILJS.publicKey },
+  )
+}
+
+function formatSentAt(date = new Date()): string {
+  // 美東時間（紐約），方便現場對帳
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+    timeZoneName: 'short',
+  }).format(date)
+}
+
+async function sendLeadCollectionEmail(payload: CouponEmailPayload): Promise<void> {
+  await emailjs.send(
+    LEAD_EMAILJS.serviceId,
+    LEAD_EMAILJS.templateId,
+    {
+      to_email: LEAD_INBOX,
+      user_email: payload.email,
+      customer_email: payload.email,
+      first_name: payload.firstName,
+      last_name: payload.lastName,
+      phone: payload.phone,
+      coupon_title: payload.couponTitle,
+      sent_at: formatSentAt(),
+    },
+    { publicKey: LEAD_EMAILJS.publicKey },
+  )
+}
+
+/** 同時寄：客人優惠券信 + 內部資料搜集信 */
 export async function sendCouponEmail(payload: CouponEmailPayload): Promise<void> {
   if (!EMAIL_SENDING_ENABLED) {
     console.info('[coupon] 開發模式：略過 Email 寄送', payload)
     return
   }
 
-  const couponImageUrl = resolveCouponImageUrl()
-
   try {
-    await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      {
-        to_email: payload.toEmail,
-        user_email: payload.toEmail,
-        coupon_title: payload.couponTitle,
-        coupon_subtitle: payload.couponSubtitle ?? '',
-        coupon_image_url: couponImageUrl,
-      },
-      { publicKey: EMAILJS_PUBLIC_KEY },
-    )
+    await Promise.all([
+      sendCustomerCouponEmail(payload),
+      sendLeadCollectionEmail(payload),
+    ])
   } catch (error: unknown) {
-    const status = (error as { status?: number })?.status
-    const text = (error as { text?: string })?.text
-    console.error('[coupon] EmailJS 失敗', { status, text, error })
-    throw new Error(text || (error as Error)?.message || 'EmailJS send failed')
+    throw formatEmailjsError(error)
   }
 }

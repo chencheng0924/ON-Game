@@ -47,10 +47,10 @@ export function useGameCouponReward() {
 
     if (!playerStore.couponSent) {
       try {
-        const toEmail = await playerStore.requestEmailForCoupon()
+        const contact = await playerStore.requestContactForCoupon()
         playerStore.couponSending = true
         await sendCouponEmail({
-          toEmail,
+          ...contact,
           couponTitle,
           couponSubtitle,
         })
