@@ -131,6 +131,7 @@ const { t } = useI18n()
   font-weight: 700;
   line-height: 1.35;
   color: var(--on-black);
+  white-space: pre-line;
 }
 
 .prize-block__subtitle {

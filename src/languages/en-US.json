@@ -45,7 +45,7 @@
       "emailSending": "Sending coupon…",
       "emailSubmit": "Send coupon",
       "groupCrab": {
-        "title": "Free soy-marinated crab for 6 guests",
+        "title": "Groups of six or more receive a complimentary soy-marinated crab.",
         "subtitle": "Dine with 6 guests to redeem"
       },
       "takeoutDiscount": {
@@ -53,7 +53,7 @@
         "subtitle": "20% off your entire takeout order"
       },
       "openingPack": {
-        "title": "Grand Opening Early Experience Pack (Includes opening invitation, opening-period discount, and ON merch)",
+        "title": "Congratulations! You've unlocked a hidden reward!\n\nWe'd love to invite you for a pre-opening meal at our restaurant. You'll also get some exclusive IRION merchandise!",
         "subtitle": ""
       }
     },
