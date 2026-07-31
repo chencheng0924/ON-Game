@@ -123,12 +123,18 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import GameCouponDialog from '@/views/pages/Games/components/GameCouponDialog.vue'
 import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackground.vue'
 import PlayerWithTray from '@/views/pages/Games/components/PlayerWithTray.vue'
 import { useGameCouponReward } from '@/composables/useGameCouponReward'
+import {
+  getCouponCopy,
+  pickBoilCatchBaseCoupon,
+  resolveFinalCoupon,
+} from '@/views/pages/Games/gameCoupons.config'
 import {
   CATCH_GAME_DURATION_SEC,
   CATCH_ITEM_CONFIG,
@@ -177,6 +183,7 @@ const moveDirection = ref(0)
 const fallingItems = shallowRef<FallingItem[]>([])
 const showEndDialog = ref(false)
 const endReason = ref<'trap' | 'timeout'>('timeout')
+const { t } = useI18n()
 const { handleGameWin } = useGameCouponReward()
 const dialogTitle = ref('時間到！')
 const dialogMessage = ref('')
@@ -305,9 +312,11 @@ function endGame(reason: 'trap' | 'timeout') {
 
 async function showEndDialogForReason(reason: 'trap' | 'timeout') {
   if (reason === 'timeout') {
+    const coupon = resolveFinalCoupon(pickBoilCatchBaseCoupon())
+    const copy = getCouponCopy(coupon, t)
     const content = await handleGameWin({
-      couponTitle: '接菜品優惠券',
-      couponSubtitle: '時間內接住料理即可兌換',
+      couponTitle: copy.title,
+      couponSubtitle: copy.subtitle,
       detail: `本次得分 ${score.value} 分`,
     })
     dialogTitle.value = content.title

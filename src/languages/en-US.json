@@ -45,16 +45,16 @@
       "emailSending": "Sending coupon…",
       "emailSubmit": "Send coupon",
       "groupCrab": {
-        "title": "Group Discount",
-        "subtitle": "6 guests dining together get a free soy-marinated crab"
+        "title": "Free soy-marinated crab for 6 guests",
+        "subtitle": "Dine with 6 guests to redeem"
       },
       "takeoutDiscount": {
         "title": "20% Off Takeout",
         "subtitle": "20% off your entire takeout order"
       },
       "openingPack": {
-        "title": "Grand Opening Early Experience Pack",
-        "subtitle": "Includes opening invitation, opening-period discount, and ON merch"
+        "title": "Grand Opening Early Experience Pack (Includes opening invitation, opening-period discount, and ON merch)",
+        "subtitle": ""
       }
     },
     "boil": {

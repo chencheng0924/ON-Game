@@ -197,10 +197,16 @@
 
 <script setup lang="ts">
 import { computed, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import GameCouponDialog from '@/views/pages/Games/components/GameCouponDialog.vue'
 import GameStoreBackground from '@/views/pages/Games/components/GameStoreBackground.vue'
 import { useGameCouponReward } from '@/composables/useGameCouponReward'
+import {
+  getCouponCopy,
+  pickBoilCatchBaseCoupon,
+  resolveFinalCoupon,
+} from '@/views/pages/Games/gameCoupons.config'
 import { PAGE_BG } from '@/views/pages/Games/gameStore.config'
 import logoImg from '@/assets/store/logo.png'
 
@@ -232,6 +238,7 @@ const selectedCupId = ref<CupId | null>(null)
 const revealedCorrect = ref(false)
 const showEndDialog = ref(false)
 const lastResult = ref<'win' | 'lose'>('win')
+const { t } = useI18n()
 const { handleGameWin } = useGameCouponReward()
 const endDialogTitle = ref('遊戲結束')
 const endDialogMessage = ref('')
@@ -281,9 +288,11 @@ function initRoundState() {
 }
 
 async function showWinCouponDialog() {
+  const coupon = resolveFinalCoupon(pickBoilCatchBaseCoupon())
+  const copy = getCouponCopy(coupon, t)
   const content = await handleGameWin({
-    couponTitle: '酒杯遊戲優惠券',
-    couponSubtitle: '猜中硬幣位置即可兌換',
+    couponTitle: copy.title,
+    couponSubtitle: copy.subtitle,
   })
   endDialogTitle.value = content.title
   endDialogMessage.value = content.message
