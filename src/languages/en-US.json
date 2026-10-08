@@ -60,12 +60,8 @@
         "subtitle": "Dine with 6 guests to redeem"
       },
       "takeoutDiscount": {
-        "title": "20% Off Takeout",
-        "subtitle": "20% off your entire takeout order"
-      },
-      "openingPack": {
-        "title": "Congratulations! You've unlocked a hidden reward!\n\nWe'd love to invite you for a pre-opening meal at our restaurant. You'll also get some exclusive IRION merchandise!",
-        "subtitle": ""
+        "title": "10% Off",
+        "subtitle": "10% off your order"
       }
     },
     "boil": {

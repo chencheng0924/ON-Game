@@ -1,41 +1,35 @@
 /**
- * Shared coupon rules for Boil Catch / MBTI
+ * Shared coupon rules
  *
- * 1. Resolve base coupon (Boil: 50/50; MBTI: EI answers)
- * 2. Roll again: 90% keep base, 10% hidden opening pack
+ * 70% 六人同行醬蟹、30% 10% off
  */
 
 import type { MbtiLetter } from '@/views/pages/Games/mbtiQuiz.config'
 
-export type StandardCouponId = 'group_crab' | 'takeout_discount'
-export type CouponId = StandardCouponId | 'opening_pack'
+export type CouponId = 'group_crab' | 'takeout_discount'
 
 export interface GameCoupon {
   id: CouponId
 }
 
-const STANDARD_COUPON_IDS: readonly StandardCouponId[] = [
-  'group_crab',
-  'takeout_discount',
-]
+/** 六人同行醬蟹機率；其餘為 10% off */
+const GROUP_CRAB_CHANCE = 0.7
 
-/** Hidden coupon chance */
-export const HIDDEN_COUPON_CHANCE = 0.1
-
-function pickRandomStandardCoupon(): GameCoupon {
-  const id = STANDARD_COUPON_IDS[Math.floor(Math.random() * STANDARD_COUPON_IDS.length)]
-  return { id }
+export function pickGameCoupon(): GameCoupon {
+  return {
+    id: Math.random() < GROUP_CRAB_CHANCE ? 'group_crab' : 'takeout_discount',
+  }
 }
 
 export function pickBoilCatchBaseCoupon(): GameCoupon {
-  return pickRandomStandardCoupon()
+  return pickGameCoupon()
 }
 
 /**
  * MBTI: based on Q1–Q2 (E/I)
  * - 2E → group crab
- * - 2I → takeout discount
- * - 1E1I → random
+ * - 2I → 10% off
+ * - 1E1I → 70/30 random
  */
 export function pickMbtiBaseCoupon(answers: readonly MbtiLetter[]): GameCoupon {
   const ei = answers.slice(0, 2).filter((letter): letter is 'E' | 'I' => letter === 'E' || letter === 'I')
@@ -44,13 +38,10 @@ export function pickMbtiBaseCoupon(answers: readonly MbtiLetter[]): GameCoupon {
 
   if (eCount === 2) return { id: 'group_crab' }
   if (iCount === 2) return { id: 'takeout_discount' }
-  return pickRandomStandardCoupon()
+  return pickGameCoupon()
 }
 
 export function resolveFinalCoupon(baseCoupon: GameCoupon): GameCoupon {
-  if (Math.random() < HIDDEN_COUPON_CHANCE) {
-    return { id: 'opening_pack' }
-  }
   return baseCoupon
 }
 
@@ -59,7 +50,6 @@ type TranslateFn = (key: string) => string
 const COUPON_I18N_KEY: Record<CouponId, string> = {
   group_crab: 'games.coupon.groupCrab',
   takeout_discount: 'games.coupon.takeoutDiscount',
-  opening_pack: 'games.coupon.openingPack',
 }
 
 export function getCouponCopy(coupon: GameCoupon, t: TranslateFn): {
