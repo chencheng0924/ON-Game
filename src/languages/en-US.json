@@ -56,12 +56,12 @@
         "phoneInvalid": "Please enter a valid phone number"
       },
       "groupCrab": {
-        "title": "Groups of six or more receive a complimentary soy-marinated crab.",
+        "title": "Groups of six or more receive a complimentary soy-marinated shrimp.",
         "subtitle": "Dine with 6 guests to redeem"
       },
       "takeoutDiscount": {
-        "title": "10% Off",
-        "subtitle": "10% off your order"
+        "title": "10% Off (for lunch)",
+        "subtitle": "10% off for lunch"
       }
     },
     "boil": {
@@ -104,7 +104,7 @@
     },
     "mbti": {
       "title": "MBTI Korean Foodie Personality",
-      "lead": "You'll receive a different grand opening coupon based on your foodie personality!",
+      "lead": "Finish the quiz to get a grand opening coupon!",
       "start": "Start quiz",
       "playAgain": "Retake quiz",
       "optionsAria": "Question {n} options",

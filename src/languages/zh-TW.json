@@ -56,12 +56,12 @@
         "phoneInvalid": "請輸入正確的電話號碼"
       },
       "groupCrab": {
-        "title": "六個人同行即贈送一份醬蟹",
-        "subtitle": "六人同行贈醬蟹乙份"
+        "title": "六個人同行即贈送一份醬蝦",
+        "subtitle": "六人同行贈醬蝦乙份"
       },
       "takeoutDiscount": {
-        "title": "10% Off",
-        "subtitle": "整單享 9 折"
+        "title": "10% Off (for lunch)",
+        "subtitle": "午餐享 9 折"
       }
     },
     "boil": {
@@ -104,7 +104,7 @@
     },
     "mbti": {
       "title": "MBTI 韓式吃貨人格",
-      "lead": "依你的吃貨人格，會拿到不同的開幕優惠券！",
+      "lead": "完成測驗即可獲得開幕優惠券！",
       "start": "開始測驗",
       "playAgain": "再測一次",
       "optionsAria": "第 {n} 題選項",

@@ -125,7 +125,7 @@ async function selectOption(letter: MbtiLetter) {
 
   const type = resolveMbtiType(answers.value)
   const profile = getMbtiProfile(type, t)
-  const coupon = resolveFinalCoupon(pickMbtiBaseCoupon(answers.value))
+  const coupon = resolveFinalCoupon(pickMbtiBaseCoupon())
   const copy = getCouponCopy(coupon, t)
   const content = await handleGameWin({
     couponTitle: copy.title,
